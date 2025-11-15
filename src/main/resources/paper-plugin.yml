@@ -4,3 +4,11 @@ main: mochineko.coreattack_pvp.Main
 api-version: '1.20'
 authors: [ mochi__neko ]
 website: https://x.com/mc_mochineko
+
+commands:
+  game_start:
+    description: ゲーム開始コマンド
+    permission: mochineko.coreattack_pvp.game_start
+  game_reset:
+    description: ゲーム開始コマンド
+    permission: mochineko.coreattack_pvp.game_reset

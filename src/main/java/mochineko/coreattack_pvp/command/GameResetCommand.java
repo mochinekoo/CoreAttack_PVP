@@ -1,0 +1,18 @@
+package mochineko.coreattack_pvp.command;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
+
+public class GameResetCommand implements CommandExecutor {
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender send, @NotNull Command cmd, @NotNull String s, @NotNull String[] args) {
+        if (cmd.getName().equalsIgnoreCase("game_reset")) {
+
+        }
+        return false;
+    }
+
+}
