@@ -1,0 +1,6 @@
+name: CoreAttack_PVP
+version: '1.0-SNAPSHOT'
+main: mochineko.coreattack_pvp.Main
+api-version: '1.20'
+authors: [ mochi__neko ]
+website: https://x.com/mc_mochineko
