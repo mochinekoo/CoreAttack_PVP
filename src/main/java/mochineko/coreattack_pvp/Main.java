@@ -21,6 +21,8 @@ public final class Main extends JavaPlugin {
             ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
         }
 
+        saveDefaultConfig();
+
         getLogger().info("プラグインが有効になりました。");
     }
 
