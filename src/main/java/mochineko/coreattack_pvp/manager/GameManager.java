@@ -3,6 +3,8 @@ package mochineko.coreattack_pvp.manager;
 import mochineko.coreattack_pvp.Main;
 import mochineko.coreattack_pvp.status.GameStatus;
 import mochineko.coreattack_pvp.utility.TextUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -35,10 +37,15 @@ public class GameManager {
                         else {
                             TextUtil.sendInfoMessage("ゲーム開始!!");
                             status = GameStatus.RUNNING;
+
+                            for (Player player : Bukkit.getOnlinePlayers()) {
+                                ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
+                            }
                         }
                     }
                     else if (status == GameStatus.RUNNING) {
 
+                        time--;
                     }
                 }
             }.runTaskTimer(Main.getPlugin(Main.class), 0L, 20L);
