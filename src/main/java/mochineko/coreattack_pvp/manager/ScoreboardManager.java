@@ -84,6 +84,16 @@ public class ScoreboardManager {
             player_obj.getScore("   ").setScore(25);
             player_obj.getScore("============").setScore(24);
         }
+        else if (manager.getStatus() == GameStatus.RUNNING) {
+            //ゲーム中のスコアボード
+            player_obj.getScore("===============").setScore(30);
+            player_obj.getScore(" ").setScore(29);
+            //player_obj.getScore("残り時間: ").setScore(28);
+            //player_obj.getScore( ChatColor.RED + "赤：").setScore(27);
+            //player_obj.getScore(ChatColor.BLUE + "青：").setScore(26);
+            player_obj.getScore("   ").setScore(24);
+            player_obj.getScore("============").setScore(23);
+        }
 
         updateScoreboard();
         Bukkit.getLogger().info("[ScoreboardManager] スコアボードを設定しました。（type=" + manager.getStatus().name() + ")");
@@ -94,12 +104,19 @@ public class ScoreboardManager {
      * @apiNote 手動で呼び出す必要なし
      */
     private void updateScoreboard() {
+        CoreManager coreManager = CoreManager.getInstance();
         if (task == null) {
             this.task = new BukkitRunnable() {
                 @Override
                 public void run() {
                     if (manager.getStatus() == GameStatus.WAITING) {
                         getScore(26).updateScore(ChatColor.GOLD + "現在の人数：" + Bukkit.getOnlinePlayers().size());
+                    }
+                    else if (manager.getStatus() == GameStatus.RUNNING) {
+                        //コアのスコアボード
+                        getScore(28).updateScore("残り時間：" + manager.getTime());
+                        getScore(27).updateScore(ChatColor.RED + "赤：" + coreManager.getCore(TeamManager.GameTeam.RED));
+                        getScore(26).updateScore(ChatColor.BLUE + "青：" + coreManager.getCore(TeamManager.GameTeam.BLUE));
                     }
 
                     //スコアボードセット
