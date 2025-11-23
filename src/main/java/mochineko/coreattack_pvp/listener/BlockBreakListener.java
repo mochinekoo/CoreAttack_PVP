@@ -1,5 +1,6 @@
 package mochineko.coreattack_pvp.listener;
 
+import mochineko.coreattack_pvp.manager.BlockManager;
 import mochineko.coreattack_pvp.manager.CoreManager;
 import mochineko.coreattack_pvp.manager.TeamManager;
 import mochineko.coreattack_pvp.utility.TextUtil;
@@ -31,6 +32,25 @@ public class BlockBreakListener implements Listener {
             TextComponent text = new TextComponent(player.getName() + "がコアを破壊しています。(現在:" + coreManager.getCore(break_core_team) + ")");
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, text);
             coreManager.subtractCore(break_core_team, 1);
+        }
+    }
+
+    //コア以外のブロック破壊
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        @NotNull Player player = event.getPlayer();
+        @NotNull Block block = event.getBlock();
+        @NotNull Location loc = block.getLocation().add(0, 0, 0);
+
+        if (!BlockManager.canGetBlock(loc)) {
+            event.setCancelled(true);
+        }
+        if (BlockManager.isGameBlock(loc)) {
+            if (BlockManager.canGetBlock(loc)) {
+                BlockManager.breakBlock(event);
+            }
+
+            event.setCancelled(true);
         }
     }
 
