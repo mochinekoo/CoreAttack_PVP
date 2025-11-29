@@ -47,11 +47,7 @@ public class ScoreboardManager {
      * @param uuid スコアボードを取得したいプレイヤー
      */
     public static ScoreboardManager getInstance(@NotNull UUID uuid) {
-        if (!board_map.containsKey(uuid)) {
-            board_map.put(uuid, new ScoreboardManager(uuid));
-        }
-
-        return board_map.get(uuid);
+        return board_map.put(uuid, new ScoreboardManager(uuid));
     }
 
     /**
