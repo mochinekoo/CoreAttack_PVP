@@ -3,6 +3,7 @@ package mochineko.coreattack_pvp;
 import mochineko.coreattack_pvp.command.GameResetCommand;
 import mochineko.coreattack_pvp.command.GameStartCommand;
 import mochineko.coreattack_pvp.listener.BlockBreakListener;
+import mochineko.coreattack_pvp.listener.PlayerJoinListener;
 import mochineko.coreattack_pvp.manager.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ public final class Main extends JavaPlugin {
 
         @NotNull PluginManager plm = getServer().getPluginManager();
         plm.registerEvents(new BlockBreakListener(), this);
+        plm.registerEvents(new PlayerJoinListener(), this);
 
         //スコアボード
         for (Player player : Bukkit.getOnlinePlayers()) {
