@@ -7,10 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class TeamManager {
 
@@ -36,10 +35,19 @@ public class TeamManager {
         team_map.put(GameTeam.BLUE, blue);
     }
 
+    /**
+     * チームマネージャーのインスタンスを返す
+     */
     public static TeamManager getInstance() {
         return instance;
     }
 
+    /**
+     * プレイヤーを指定したチームに参加させる関数
+     * @param team 参加させたいチーム
+     * @param player 参加するプレイヤー
+     * @return 成功はtrue、失敗はfalse
+     */
     public boolean joinTeam(@NonNull GameTeam team, @NonNull Player player) {
         if (!isJoinTeam(player)) {
             Team board_team = getConvertBoardTeam(team);
@@ -50,6 +58,41 @@ public class TeamManager {
         return false;
     }
 
+    /**
+     * プレイヤーをランダム追加させる関数
+     * @param player 参加させたいプレイヤー
+     * @return 成功はtrue、失敗はfalse
+     */
+    public boolean randomJoin(@NotNull Player player) {
+        if (!isJoinTeam(player)) {
+            GameTeam gameTeam = null;
+            int minSize = -1;
+            for (Team team : team_map.values()) {
+                if (minSize > team.getSize()) {
+                    minSize = team.getSize();
+                    gameTeam = getConvertGameTeam(team);
+                }
+            }
+
+            if (minSize == -1) {
+                ArrayList<GameTeam> teamList = new ArrayList<>(Arrays.asList(GameTeam.values()));
+                Collections.shuffle(teamList);
+                joinTeam(teamList.get(0), player);
+            }
+            else {
+                joinTeam(gameTeam, player);
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * プレイヤーをチームから抜けさせる関数
+     * @param player 抜けるプレイヤー
+     * @return 成功はtrue、失敗はfalse
+     */
     public boolean leaveTeam(@NonNull OfflinePlayer player) {
         if (isJoinTeam(player)) {
             Team board_team = getJoinBoardTeam(player);
@@ -62,9 +105,13 @@ public class TeamManager {
         return false;
     }
 
+    /**
+     * プレイヤーがどこかのチームに参加してるかを返す関数
+     * @param player 確認したいプレイヤー
+     * @return 参加してたらtrue、どこにも参加していない場合はfalse
+     */
     public boolean isJoinTeam(@NonNull OfflinePlayer player) {
         for (Map.Entry<GameTeam, Team> entry : team_map.entrySet()) {
-            GameTeam game_team = entry.getKey();
             Team board_team = entry.getValue();
             if (board_team.getEntries().contains(player.getName())) {
                 return true;
