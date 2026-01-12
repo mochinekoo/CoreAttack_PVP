@@ -41,6 +41,14 @@ public class ConfigManager {
         return new Location(getGameWorld(), x, y, z);
     }
 
+    public Location getTeamCoreLocation(GameTeam team) {
+        String team_path = "location.team.core." + team.name().toLowerCase(Locale.ROOT);
+        int x = configuration.getInt(team_path + ".x");
+        int y = configuration.getInt(team_path + ".y");
+        int z = configuration.getInt(team_path + ".z");
+        return new Location(getGameWorld(), x, y, z);
+    }
+
     public static ConfigManager getInstance() {
         if (instance == null) {
             instance = new ConfigManager();
