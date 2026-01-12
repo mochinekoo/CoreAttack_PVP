@@ -1,0 +1,4 @@
+name: CoreAttackPVP
+version: '${project.version}'
+main: mochineko.core_attack_pvp.Main
+api-version: '1.20'
