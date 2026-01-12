@@ -1,0 +1,15 @@
+location:
+  world_name: "world"
+  lobby:
+    x:
+    y:
+    z:
+  team:
+    red:
+      x:
+      y:
+      z:
+    blue:
+      x:
+      y:
+      z:
