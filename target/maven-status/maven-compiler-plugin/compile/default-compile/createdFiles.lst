@@ -16,6 +16,7 @@ mochineko\core_attack_pvp\json\BlockGuardJson.class
 mochineko\core_attack_pvp\status\GameStatus.class
 mochineko\core_attack_pvp\listener\PlayerJoinListener.class
 mochineko\core_attack_pvp\manager\ScoreboardManager$Score.class
+mochineko\core_attack_pvp\listener\PlayerLeaveListener.class
 mochineko\core_attack_pvp\manager\GameManager$1.class
 mochineko\core_attack_pvp\manager\JsonManager.class
 mochineko\core_attack_pvp\command\GameStartCommand.class

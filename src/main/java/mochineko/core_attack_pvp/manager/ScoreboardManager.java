@@ -56,6 +56,13 @@ public class ScoreboardManager {
     }
 
     /**
+     * スコアボードインスタンスを削除する関数
+     */
+    public static void removeInstance(UUID uuid) {
+        board_map.remove(uuid);
+    }
+
+    /**
      * スコアを取得する関数
      * @param score スコアを取得したい場所
      */
