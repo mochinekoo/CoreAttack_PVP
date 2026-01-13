@@ -4,6 +4,8 @@ import mochineko.core_attack_pvp.Main;
 import mochineko.core_attack_pvp.library.GameBase;
 import mochineko.core_attack_pvp.status.GameStatus;
 import mochineko.core_attack_pvp.util.ChatUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -31,6 +33,9 @@ public class GameManager extends GameBase {
                     if (countTime <= 0) {
                         ChatUtil.sendGlobalInfoMessage("ゲーム開始!");
                         setStatus(GameStatus.RUNNING);
+                        for (Player player : Bukkit.getOnlinePlayers()) {
+                            ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
+                        }
                     }
                     else {
                         String message = String.format("ゲームを開始まであと%d秒", countTime);

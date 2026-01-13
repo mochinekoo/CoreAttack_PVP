@@ -2,6 +2,7 @@ package mochineko.core_attack_pvp.manager;
 
 import mochineko.core_attack_pvp.Main;
 import mochineko.core_attack_pvp.status.GameStatus;
+import mochineko.core_attack_pvp.status.GameTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -84,6 +85,15 @@ public class ScoreboardManager {
             player_obj.getScore("   ").setScore(25);
             player_obj.getScore("============").setScore(24);
         }
+        else if (manager.getStatus() == GameStatus.RUNNING) {
+            //ゲーム中
+            player_obj.getScore("===============").setScore(30);
+            player_obj.getScore("  ").setScore(29);
+            //player_obj.getScore(ChatColor.RED + "赤：" + ChatColor.GOLD + "").setScore(28);
+            //player_obj.getScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + "").setScore(27);
+            player_obj.getScore(" ").setScore(26);
+            player_obj.getScore("============").setScore(25);
+        }
 
         updateScoreboard();
         Bukkit.getLogger().info("[ScoreboardManager] スコアボードを設定しました。（type=" + manager.getStatus().name() + ")");
@@ -96,10 +106,15 @@ public class ScoreboardManager {
     private void updateScoreboard() {
         if (task == null) {
             this.task = new BukkitRunnable() {
+                CoreManager coreManager = CoreManager.getInstance();
                 @Override
                 public void run() {
                     if (manager.getStatus() == GameStatus.WAITING) {
                         getScore(26).updateScore(ChatColor.GOLD + "現在の人数：" + Bukkit.getOnlinePlayers().size());
+                    }
+                    else if (manager.getStatus() == GameStatus.RUNNING) {
+                        getScore(28).updateScore(ChatColor.RED + "赤：" + ChatColor.GOLD + coreManager.getCore(GameTeam.RED));
+                        getScore(27).updateScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + coreManager.getCore(GameTeam.BLUE));
                     }
 
                     //スコアボードセット
