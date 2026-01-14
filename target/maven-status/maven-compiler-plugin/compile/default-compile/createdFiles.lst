@@ -23,4 +23,5 @@ mochineko\core_attack_pvp\command\GameStartCommand.class
 mochineko\core_attack_pvp\listener\BlockBreakListener.class
 mochineko\core_attack_pvp\status\FileType.class
 mochineko\core_attack_pvp\manager\GameManager.class
+mochineko\core_attack_pvp\listener\PlayerDeadListener.class
 mochineko\core_attack_pvp\library\GameBase.class
