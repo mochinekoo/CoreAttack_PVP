@@ -8,6 +8,7 @@ mochineko\core_attack_pvp\manager\CoreManager.class
 mochineko\core_attack_pvp\json\BlockGuardJson$GuardData.class
 mochineko\core_attack_pvp\command\TeamCommand.class
 mochineko\core_attack_pvp\manager\ScoreboardManager.class
+mochineko\core_attack_pvp\status\BlockResourceType.class
 mochineko\core_attack_pvp\listener\PlayerChatListener.class
 mochineko\core_attack_pvp\library\KitBase.class
 mochineko\core_attack_pvp\library\DeserializedJson.class
@@ -19,6 +20,7 @@ mochineko\core_attack_pvp\manager\ScoreboardManager$Score.class
 mochineko\core_attack_pvp\listener\PlayerLeaveListener.class
 mochineko\core_attack_pvp\manager\GameManager$1.class
 mochineko\core_attack_pvp\manager\JsonManager.class
+mochineko\core_attack_pvp\listener\BlockBreakListener$1.class
 mochineko\core_attack_pvp\command\GameStartCommand.class
 mochineko\core_attack_pvp\listener\BlockBreakListener.class
 mochineko\core_attack_pvp\status\FileType.class

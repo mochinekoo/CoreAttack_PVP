@@ -1,9 +1,11 @@
 package mochineko.core_attack_pvp.listener;
 
+import mochineko.core_attack_pvp.Main;
 import mochineko.core_attack_pvp.json.BlockGuardJson;
 import mochineko.core_attack_pvp.manager.CoreManager;
 import mochineko.core_attack_pvp.manager.JsonManager;
 import mochineko.core_attack_pvp.manager.TeamManager;
+import mochineko.core_attack_pvp.status.BlockResourceType;
 import mochineko.core_attack_pvp.status.FileType;
 import mochineko.core_attack_pvp.status.GameTeam;
 import mochineko.core_attack_pvp.util.ChatUtil;
@@ -14,13 +16,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Map;
 
 public class BlockBreakListener implements Listener {
 
     private final BlockGuardJson json = (BlockGuardJson) new JsonManager(FileType.CONFIG).getDeserializedJson();
-    
+
+    /**
+     * ブロックの保護のリスナー
+     */
     @EventHandler
     public void onGuard(BlockBreakEvent event) {
         Player player = event.getPlayer();
@@ -32,6 +39,9 @@ public class BlockBreakListener implements Listener {
         }
     }
 
+    /**
+     * コア破壊のリスナー
+     */
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
@@ -55,6 +65,36 @@ public class BlockBreakListener implements Listener {
         }
 
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBreakResources(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        CoreManager coreManager = CoreManager.getInstance();
+        GameTeam team = TeamManager.getInstance().getJoinGameTeam(player);
+        Block block = event.getBlock();
+        Location loc = block.getLocation();
+        GameTeam breakTeam = coreManager.getBreakCoreTeam(loc);
+
+        if (block.getType() == Material.COBBLESTONE) event.setCancelled(true);
+        if (BlockResourceType.isBlockResourceType(block.getType())) {
+            BlockResourceType blockResource = BlockResourceType.getBlockResourceType(block.getType());
+            event.setCancelled(true);
+            if (block.getType() == Material.GRAVEL) {
+                player.getInventory().addItem(new ItemStack(blockResource.getRandomObtainMaterial()));
+            }
+            else {
+                player.getInventory().addItem(new ItemStack(blockResource.getObtainMaterial().get(0)));
+            }
+
+            block.setType(Material.COBBLESTONE);
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    block.setType(blockResource.getBreakMaterial().get(0));
+                }
+            }.runTaskLater(Main.getPlugin(Main.class), 20L * blockResource.getRespawnTime());
+        }
     }
     
 }
