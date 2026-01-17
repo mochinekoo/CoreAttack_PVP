@@ -3,3 +3,4 @@
 /workspace.xml
 # 環境に依存する Maven ホームディレクトリのパス
 /mavenHomeManager.xml
+../target/
