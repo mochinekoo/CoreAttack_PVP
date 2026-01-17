@@ -3,10 +3,12 @@ package mochineko.core_attack_pvp.listener;
 import mochineko.core_attack_pvp.Main;
 import mochineko.core_attack_pvp.json.BlockGuardJson;
 import mochineko.core_attack_pvp.manager.CoreManager;
+import mochineko.core_attack_pvp.manager.GameManager;
 import mochineko.core_attack_pvp.manager.JsonManager;
 import mochineko.core_attack_pvp.manager.TeamManager;
 import mochineko.core_attack_pvp.status.BlockResourceType;
 import mochineko.core_attack_pvp.status.FileType;
+import mochineko.core_attack_pvp.status.GameStatus;
 import mochineko.core_attack_pvp.status.GameTeam;
 import mochineko.core_attack_pvp.util.ChatUtil;
 import org.bukkit.Location;
@@ -46,15 +48,32 @@ public class BlockBreakListener implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         CoreManager coreManager = CoreManager.getInstance();
+        GameManager gameManager = GameManager.getInstance();
         GameTeam team = TeamManager.getInstance().getJoinGameTeam(player);
         Block block = event.getBlock();
         Location loc = block.getLocation();
         GameTeam breakTeam = coreManager.getBreakCoreTeam(loc);
 
-        if (team == null) return; //削った人が、チームに所属していない場合
         if (block.getType() != CoreManager.CORE_BLOCK.getMaterial()) return; //削ったブロックが、コアブロックじゃない場合
         if (breakTeam == null) return; //削った場所が、チームのコアじゃない場合
 
+        //以降はイベントcancel（=削れないようにする）
+        event.setCancelled(true);
+
+        if (gameManager.getStatus() != GameStatus.RUNNING) {
+            ChatUtil.sendInfoMessage(player, "ゲーム開始前に削ることはできません。");
+            return;
+        }
+        if (team == null) {
+            ChatUtil.sendInfoMessage(player, "チーズに所属していないため削ることができません。");
+            return;
+        }
+        if (breakTeam == team) {
+            ChatUtil.sendInfoMessage(player, "自軍のコアは削ることができません。");
+            return;
+        }
+
+        //正常に削れた時の処理
         int getCore = coreManager.getCore(breakTeam);
         if (getCore <= 1) {
             block.setType(Material.BEDROCK);
@@ -63,8 +82,6 @@ public class BlockBreakListener implements Listener {
             coreManager.subtractCore(breakTeam, 1);
             ChatUtil.sendGlobalInfoMessage("コアが削られてます。残り：" + getCore);
         }
-
-        event.setCancelled(true);
     }
 
     @EventHandler
