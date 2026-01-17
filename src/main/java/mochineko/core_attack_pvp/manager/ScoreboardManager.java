@@ -96,10 +96,11 @@ public class ScoreboardManager {
             //ゲーム中
             player_obj.getScore("===============").setScore(30);
             player_obj.getScore("  ").setScore(29);
-            //player_obj.getScore(ChatColor.RED + "赤：" + ChatColor.GOLD + "").setScore(28);
-            //player_obj.getScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + "").setScore(27);
-            player_obj.getScore(" ").setScore(26);
-            player_obj.getScore("============").setScore(25);
+            // player_obj.getScore("残り時間: " + time).setScore(28);
+            //player_obj.getScore(ChatColor.RED + "赤：" + ChatColor.GOLD + "").setScore(27);
+            //player_obj.getScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + "").setScore(26);
+            player_obj.getScore(" ").setScore(25);
+            player_obj.getScore("============").setScore(24);
         }
 
         updateScoreboard();
@@ -114,14 +115,16 @@ public class ScoreboardManager {
         if (task == null) {
             this.task = new BukkitRunnable() {
                 CoreManager coreManager = CoreManager.getInstance();
+                GameManager gameManager = GameManager.getInstance();
                 @Override
                 public void run() {
                     if (manager.getStatus() == GameStatus.WAITING) {
                         getScore(26).updateScore(ChatColor.GOLD + "現在の人数：" + Bukkit.getOnlinePlayers().size());
                     }
                     else if (manager.getStatus() == GameStatus.RUNNING) {
-                        getScore(28).updateScore(ChatColor.RED + "赤：" + ChatColor.GOLD + coreManager.getCore(GameTeam.RED));
-                        getScore(27).updateScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + coreManager.getCore(GameTeam.BLUE));
+                        getScore(28).updateScore("残り時間：" + String.format("%02d:%02d", gameManager.getTime() / 60, gameManager.getTime() % 60));
+                        getScore(27).updateScore(ChatColor.RED + "赤：" + ChatColor.GOLD + coreManager.getCore(GameTeam.RED));
+                        getScore(26).updateScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + coreManager.getCore(GameTeam.BLUE));
                     }
 
                     //スコアボードセット

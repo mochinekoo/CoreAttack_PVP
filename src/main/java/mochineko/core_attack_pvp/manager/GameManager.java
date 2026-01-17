@@ -55,6 +55,6 @@ public class GameManager extends GameBase {
 
     @Override
     public void resetGame() {
-
+        setTime(60*30);
     }
 }

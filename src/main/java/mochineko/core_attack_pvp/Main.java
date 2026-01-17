@@ -3,6 +3,7 @@ package mochineko.core_attack_pvp;
 import mochineko.core_attack_pvp.command.GameStartCommand;
 import mochineko.core_attack_pvp.command.TeamCommand;
 import mochineko.core_attack_pvp.listener.*;
+import mochineko.core_attack_pvp.manager.GameManager;
 import mochineko.core_attack_pvp.manager.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        GameManager.getInstance().resetGame();
         for (Player player : Bukkit.getOnlinePlayers()) {
             ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
         }
