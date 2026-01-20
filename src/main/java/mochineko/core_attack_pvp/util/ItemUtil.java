@@ -28,7 +28,7 @@ public class ItemUtil {
         ItemMeta meta = itemStack.getItemMeta();
         List<String> getLore = meta.getLore() == null ? List.of() : meta.getLore();
         for (ItemStackProperty itemStackProperty : propertys) {
-            getLore.add(ChatColor.GOLD + itemStackProperty.name() );
+            getLore.add(ChatColor.GOLD + itemStackProperty.name());
         }
         meta.setLore(getLore);
         itemStack.setItemMeta(meta);
@@ -37,6 +37,18 @@ public class ItemUtil {
 
     public ItemStack buildItemStack() {
         return itemStack;
+    }
+
+    public static boolean containsProperty(ItemStack itemStack, ItemStackProperty property) {
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta == null) return false;
+        if (meta.getLore() == null) return false;
+        for (String lore : meta.getLore()) {
+            if (lore.contains(property.name())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

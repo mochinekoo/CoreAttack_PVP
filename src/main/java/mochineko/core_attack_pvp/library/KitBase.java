@@ -1,6 +1,8 @@
 package mochineko.core_attack_pvp.library;
 
 import mochineko.core_attack_pvp.Main;
+import mochineko.core_attack_pvp.status.ItemStackProperty;
+import mochineko.core_attack_pvp.util.ItemUtil;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -39,5 +41,17 @@ public abstract class KitBase {
 
     public void giveKitItem() {
         getPlayer().getInventory().addItem(getKitItems().toArray(new ItemStack[0]));
+    }
+
+    public ItemStack findKitItem(ItemStack item) {
+        for (ItemStack playerItem : getPlayer().getInventory().getContents()) {
+            if (playerItem == null) continue;
+            if (item.getType() != playerItem.getType()) continue;
+            if (!ItemUtil.containsProperty(playerItem, ItemStackProperty.KIT_ITEM)) continue;
+            if (playerItem.getType() == item.getType()) {
+                return playerItem;
+            }
+        }
+        return null;
     }
 }
