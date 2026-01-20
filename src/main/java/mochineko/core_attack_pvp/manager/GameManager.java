@@ -24,6 +24,7 @@ public class GameManager extends GameBase {
     public int startGame() {
         if (isGameActive()) return -1;
         if (getStatus() != GameStatus.WAITING) return -1;
+        KitManager kitManager = KitManager.getInstance();
 
         BukkitTask task = new BukkitRunnable() {
             int countTime = 10;
@@ -34,7 +35,9 @@ public class GameManager extends GameBase {
                         ChatUtil.sendGlobalInfoMessage("ゲーム開始!");
                         setStatus(GameStatus.RUNNING);
                         for (Player player : Bukkit.getOnlinePlayers()) {
+                            player.getInventory().clear();
                             ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
+                            kitManager.getKit(player.getUniqueId()).giveKitItem();
                         }
                     }
                     else {
