@@ -11,10 +11,10 @@ import java.util.List;
 
 public abstract class KitBase {
 
-    private String kit_name;
-    private OfflinePlayer player;
-    private int cooldown;
-    private boolean canUse;
+    private final String kit_name;
+    private final OfflinePlayer player;
+    protected int cooldown;
+    protected boolean canUse;
 
     public KitBase(String kit_name, OfflinePlayer player, int cooldown) {
         this.kit_name = kit_name;
