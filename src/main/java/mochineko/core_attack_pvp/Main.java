@@ -1,8 +1,10 @@
 package mochineko.core_attack_pvp;
 
 import mochineko.core_attack_pvp.command.GameStartCommand;
+import mochineko.core_attack_pvp.command.KitCommand;
 import mochineko.core_attack_pvp.command.TeamCommand;
 import mochineko.core_attack_pvp.listener.*;
+import mochineko.core_attack_pvp.listener.kit.BuilderListener;
 import mochineko.core_attack_pvp.manager.GameManager;
 import mochineko.core_attack_pvp.manager.ScoreboardManager;
 import org.bukkit.Bukkit;
@@ -28,8 +30,12 @@ public final class Main extends JavaPlugin {
         plm.registerEvents(new PlayerLeaveListener(), this);
         plm.registerEvents(new PlayerDeadListener(), this);
 
+        //kit
+        plm.registerEvents(new BuilderListener(), this);
+
         getCommand("game_start").setExecutor(new GameStartCommand());
         getCommand("game_team").setExecutor(new TeamCommand());
+        getCommand("kit").setExecutor(new KitCommand());
     }
 
     @Override

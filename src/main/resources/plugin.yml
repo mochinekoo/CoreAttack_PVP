@@ -10,3 +10,6 @@ commands:
   game_team:
     description: "チームに関するコマンド"
     permission: game_team
+  kit:
+    description: "キットに関するコマンド"
+    permission: kit
