@@ -1,6 +1,10 @@
 package mochineko.core_attack_pvp.manager;
 
 import mochineko.core_attack_pvp.library.KitBase;
+import mochineko.core_attack_pvp.status.KitType;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +23,17 @@ public class KitManager {
     }
 
     public void setKit(UUID uuid, KitBase kit) {
+        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        if (player.isOnline()) {
+            if (!kit.getName().equalsIgnoreCase("DefaultKit")) {
+                player.getPlayer().setPlayerListName(ChatColor.GRAY + kit.getName() + ChatColor.RESET + player.getName());
+            }
+        }
         kit_map.put(uuid, kit);
+    }
+
+    public void setKit(UUID uuid, KitType type) {
+        setKit(uuid, type.newInstance(Bukkit.getOfflinePlayer(uuid)));
     }
 
     public KitBase getKit(UUID uuid) {
