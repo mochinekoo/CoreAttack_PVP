@@ -25,6 +25,7 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         PluginManager plm = getServer().getPluginManager();
         plm.registerEvents(new BlockBreakListener(), this);
+        plm.registerEvents(new BlockPlaceListener(), this);
         plm.registerEvents(new PlayerChatListener(), this);
         plm.registerEvents(new PlayerJoinListener(), this);
         plm.registerEvents(new PlayerLeaveListener(), this);
