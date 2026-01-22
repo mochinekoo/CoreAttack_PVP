@@ -7,10 +7,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
 
-public class TeamCommand implements CommandExecutor {
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * チームコマンドのクラス
+ * @version 0.0.1
+ */
+public class TeamCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender send, Command cmd, String s, String[] args) {
@@ -60,4 +71,37 @@ public class TeamCommand implements CommandExecutor {
         return false;
     }
 
+    @Override
+    public List<String> onTabComplete(CommandSender send, Command cmd, String s, String[] args) {
+        if (cmd.getName().equalsIgnoreCase("game_team")) {
+            if (args.length == 1) {
+                return Arrays.asList("join", "leave", "list", "randomJoin", "assign", "empty");
+            }
+
+            if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("join")) {
+                    return Arrays.stream(GameTeam.values())
+                            .map(Enum::name)
+                            .filter(filter -> filter.startsWith(args[1]))
+                            .collect(Collectors.toList());
+                }
+                if (args[0].equalsIgnoreCase("leave") || args[0].equalsIgnoreCase("randomJoin")) {
+                    return Bukkit.getOnlinePlayers().stream()
+                            .map(Player::getName)
+                            .filter(filter -> filter.startsWith(args[1]))
+                            .collect(Collectors.toList());
+                }
+            }
+
+            if (args.length == 3) {
+                if (args[0].equalsIgnoreCase("join")) {
+                    return Bukkit.getOnlinePlayers().stream()
+                            .map(Player::getName)
+                            .filter(filter -> filter.startsWith(args[2]))
+                            .collect(Collectors.toList());
+                }
+            }
+        }
+        return Collections.emptyList();
+    }
 }

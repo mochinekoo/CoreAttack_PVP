@@ -36,6 +36,9 @@ public final class Main extends JavaPlugin {
         getCommand("game_start").setExecutor(new GameStartCommand());
         getCommand("game_team").setExecutor(new TeamCommand());
         getCommand("kit").setExecutor(new KitCommand());
+
+        //tab
+        getCommand("game_team").setTabCompleter(new TeamCommand());
     }
 
     @Override
