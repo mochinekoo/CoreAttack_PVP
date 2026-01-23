@@ -13,3 +13,6 @@ commands:
   kit:
     description: "キットに関するコマンド"
     permission: kit
+  set_gametime:
+    description: "ゲームの時間に関するコマンド"
+    permission: set_gametime

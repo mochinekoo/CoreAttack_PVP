@@ -1,5 +1,6 @@
 package mochineko.core_attack_pvp;
 
+import mochineko.core_attack_pvp.command.GameSettingCommand;
 import mochineko.core_attack_pvp.command.GameStartCommand;
 import mochineko.core_attack_pvp.command.KitCommand;
 import mochineko.core_attack_pvp.command.TeamCommand;
@@ -37,6 +38,7 @@ public final class Main extends JavaPlugin {
         getCommand("game_start").setExecutor(new GameStartCommand());
         getCommand("game_team").setExecutor(new TeamCommand());
         getCommand("kit").setExecutor(new KitCommand());
+        getCommand("set_gametime").setExecutor(new GameSettingCommand());
 
         //tab
         getCommand("game_team").setTabCompleter(new TeamCommand());
