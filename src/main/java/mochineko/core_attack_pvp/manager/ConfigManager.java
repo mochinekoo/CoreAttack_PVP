@@ -34,15 +34,17 @@ public class ConfigManager {
     }
 
     public Location getTeamSpawnLocation(GameTeam team) {
-        String team_path = "location.team." + team.name().toLowerCase(Locale.ROOT);
-        int x = configuration.getInt(team_path + ".spawn.x");
-        int y = configuration.getInt(team_path + ".spawn.y");
-        int z = configuration.getInt(team_path + ".spawn.z");
+        //パス例：location.spawn.red.x
+        String team_path = "location.spawn." + team.name().toLowerCase(Locale.ROOT);
+        int x = configuration.getInt(team_path + ".x");
+        int y = configuration.getInt(team_path + ".y");
+        int z = configuration.getInt(team_path + ".z");
         return new Location(getGameWorld(), x, y, z);
     }
 
     public Location getTeamCoreLocation(GameTeam team) {
-        String team_path = "location.team.core." + team.name().toLowerCase(Locale.ROOT);
+        //パス例：location.core.red.x
+        String team_path = "location.core." + team.name().toLowerCase(Locale.ROOT);
         int x = configuration.getInt(team_path + ".x");
         int y = configuration.getInt(team_path + ".y");
         int z = configuration.getInt(team_path + ".z");

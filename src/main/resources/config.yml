@@ -4,7 +4,16 @@ location:
     x:
     y:
     z:
-  team:
+  core:
+    red:
+      x:
+      y:
+      z:
+    blue:
+      x:
+      y:
+      z:
+  spawn:
     red:
       x:
       y:
