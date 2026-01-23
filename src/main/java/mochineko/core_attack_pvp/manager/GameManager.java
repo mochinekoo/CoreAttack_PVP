@@ -3,8 +3,10 @@ package mochineko.core_attack_pvp.manager;
 import mochineko.core_attack_pvp.Main;
 import mochineko.core_attack_pvp.library.GameBase;
 import mochineko.core_attack_pvp.status.GameStatus;
+import mochineko.core_attack_pvp.status.GameTeam;
 import mochineko.core_attack_pvp.util.ChatUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -38,6 +40,12 @@ public class GameManager extends GameBase {
                             player.getInventory().clear();
                             ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
                             kitManager.getKit(player.getUniqueId()).giveKitItem();
+                            GameTeam team = TeamManager.getInstance().getJoinGameTeam(player);
+                            if (team != null) {
+                                Location teamSpawn = ConfigManager.getInstance().getTeamSpawnLocation(team);
+                                player.teleport(teamSpawn);
+                            }
+
                         }
                     }
                     else {
