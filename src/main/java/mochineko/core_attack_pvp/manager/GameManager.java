@@ -56,6 +56,20 @@ public class GameManager extends GameBase {
                     }
                 }
                 else if (getStatus() == GameStatus.RUNNING) {
+                    if (getTime() <= 0) {
+                        this.cancel();
+                        ChatUtil.sendGlobalInfoMessage("ゲーム終了!");
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                setStatus(GameStatus.ENDING);
+                                for (Player player : Bukkit.getOnlinePlayers()) {
+                                    ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
+                                    player.teleport(ConfigManager.getInstance().getLobby());
+                                }
+                            }
+                        }.runTaskLater(Main.getPlugin(Main.class), 20L*3);
+                    }
                     subtractTime(1);
                 }
             }

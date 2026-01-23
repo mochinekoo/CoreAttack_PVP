@@ -102,6 +102,16 @@ public class ScoreboardManager {
             player_obj.getScore(" ").setScore(25);
             player_obj.getScore("============").setScore(24);
         }
+        else if (manager.getStatus() == GameStatus.ENDING) {
+            //ゲーム終了
+            player_obj.getScore("===============").setScore(30);
+            player_obj.getScore("  ").setScore(29);
+            player_obj.getScore("ゲーム終了!!").setScore(28);
+            player_obj.getScore(ChatColor.RED + "赤：" + ChatColor.GOLD + CoreManager.getInstance().getCore(GameTeam.RED)).setScore(27);
+            player_obj.getScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + CoreManager.getInstance().getCore(GameTeam.BLUE)).setScore(26);
+            player_obj.getScore(" ").setScore(25);
+            player_obj.getScore("============").setScore(24);
+        }
 
         updateScoreboard();
         Bukkit.getLogger().info("[ScoreboardManager] スコアボードを設定しました。（type=" + manager.getStatus().name() + ")");
@@ -125,6 +135,9 @@ public class ScoreboardManager {
                         getScore(28).updateScore("残り時間：" + String.format("%02d:%02d", gameManager.getTime() / 60, gameManager.getTime() % 60));
                         getScore(27).updateScore(ChatColor.RED + "赤：" + ChatColor.GOLD + coreManager.getCore(GameTeam.RED));
                         getScore(26).updateScore(ChatColor.BLUE + "青：" + ChatColor.GOLD + coreManager.getCore(GameTeam.BLUE));
+                    }
+                    else if (manager.getStatus() == GameStatus.ENDING) {
+                        //空白
                     }
 
                     //スコアボードセット
