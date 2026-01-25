@@ -1,6 +1,7 @@
 package mochineko.core_attack_pvp.manager;
 
 import mochineko.core_attack_pvp.status.GameTeam;
+import mochineko.core_attack_pvp.util.BukkitUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -42,7 +43,7 @@ public class TeamManager {
         if (!isJoinTeam(player)) {
             Team board_team = getConvertBoardTeam(team);
             board_team.addEntry(player.getName());
-            player.setPlayerListName(team.getColor() + player.getName());
+            BukkitUtil.updateListName(player);
             return true;
         }
         return false;
@@ -92,7 +93,7 @@ public class TeamManager {
             Team board_team = getJoinBoardTeam(player);
             board_team.removeEntry(player.getName());
             if (player.isOnline()) {
-                player.getPlayer().setPlayerListName(ChatColor.RESET + player.getName());
+                BukkitUtil.resetListName(player.getPlayer());
             }
             return true;
         }
