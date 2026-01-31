@@ -34,6 +34,7 @@ public final class Main extends JavaPlugin {
         plm.registerEvents(new PlayerCraftListener(), this);
         plm.registerEvents(new PlayerDamageListener(), this);
         plm.registerEvents(new PlayerItemDropListener(), this);
+        plm.registerEvents(new PlayerInventoryClickListener(), this);
 
         //kit
         plm.registerEvents(new BuilderListener(), this);
