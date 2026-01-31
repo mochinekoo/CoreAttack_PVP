@@ -61,6 +61,9 @@ public class TeamManager {
         return getJoinGameTeam(player);
     }
 
+    /**
+     * チームを割り当てる関数
+     */
     public void assignTeam() {
         emptyTeam();
         List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
@@ -74,6 +77,9 @@ public class TeamManager {
         }
     }
 
+    /**
+     * 全てのチームを空にする関数
+     */
     public void emptyTeam() {
         for (GameTeam gameTeam : GameTeam.values()) {
             Team board_team = getConvertBoardTeam(gameTeam);
@@ -144,7 +150,6 @@ public class TeamManager {
      */
     public Team getJoinBoardTeam(OfflinePlayer player) {
         for (Map.Entry<GameTeam, Team> entry : team_map.entrySet()) {
-            GameTeam game_team = entry.getKey();
             Team board_team = entry.getValue();
 
             Set<String> team_player_set = board_team.getEntries();
