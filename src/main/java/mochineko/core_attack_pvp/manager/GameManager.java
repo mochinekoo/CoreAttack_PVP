@@ -2,6 +2,7 @@ package mochineko.core_attack_pvp.manager;
 
 import mochineko.core_attack_pvp.Main;
 import mochineko.core_attack_pvp.library.GameBase;
+import mochineko.core_attack_pvp.library.KitBase;
 import mochineko.core_attack_pvp.status.GameStatus;
 import mochineko.core_attack_pvp.status.GameTeam;
 import mochineko.core_attack_pvp.util.ChatUtil;
@@ -40,7 +41,10 @@ public class GameManager extends GameBase {
                             player.getInventory().clear();
                             ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
                             TeamManager.getInstance().assignTeam();
-                            kitManager.getKit(player.getUniqueId()).giveKitItem();
+                            KitBase kit = kitManager.getKit(player.getUniqueId());
+                            if (kit != null) {
+                                kit.giveKitItem();
+                            }
                             GameTeam team = TeamManager.getInstance().getJoinGameTeam(player);
                             if (team != null) {
                                 Location teamSpawn = ConfigManager.getInstance().getTeamSpawnLocation(team);
