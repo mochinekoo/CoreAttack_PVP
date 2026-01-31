@@ -39,6 +39,7 @@ public class GameManager extends GameBase {
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             player.getInventory().clear();
                             ScoreboardManager.getInstance(player.getUniqueId()).setScoreboard();
+                            TeamManager.getInstance().assignTeam();
                             kitManager.getKit(player.getUniqueId()).giveKitItem();
                             GameTeam team = TeamManager.getInstance().getJoinGameTeam(player);
                             if (team != null) {
