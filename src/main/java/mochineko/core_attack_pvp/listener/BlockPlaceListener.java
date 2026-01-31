@@ -31,13 +31,14 @@ public class BlockPlaceListener implements Listener {
     public void onGuard(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlockPlaced();
-        Map<String, BlockGuardJson.GuardData> guardData = json.getGuardData();
         if (CANT_BLOCK.contains(block.getType())) {
             event.setCancelled(true);
             ChatUtil.sendInfoMessage(player, "そのブロックを設置することはできません。");
             return;
         }
 
+        Map<String, BlockGuardJson.GuardData> guardData = json.getGuardData();
+        if (guardData == null) return;
         for (BlockGuardJson.GuardData guard : guardData.values()) {
             if (guard.isAABB(event.getBlock().getLocation())) {
                 event.setCancelled(true);

@@ -34,6 +34,7 @@ public class BlockBreakListener implements Listener {
     public void onGuard(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Map<String, BlockGuardJson.GuardData> guardData = json.getGuardData();
+        if (guardData == null) return;
         for (BlockGuardJson.GuardData guard : guardData.values()) {
             if (guard.isAABB(event.getBlock().getLocation())) {
                 event.setCancelled(true);
