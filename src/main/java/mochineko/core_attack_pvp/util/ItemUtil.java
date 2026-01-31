@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemUtil {
@@ -26,7 +27,7 @@ public class ItemUtil {
 
     public ItemUtil setProperty(ItemStackProperty... propertys) {
         ItemMeta meta = itemStack.getItemMeta();
-        List<String> getLore = meta.getLore() == null ? List.of() : meta.getLore();
+        List<String> getLore = meta.getLore() == null ? new ArrayList<>() : new ArrayList<>(meta.getLore());
         for (ItemStackProperty itemStackProperty : propertys) {
             getLore.add(ChatColor.GOLD + itemStackProperty.name());
         }

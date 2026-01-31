@@ -1,12 +1,15 @@
 package mochineko.core_attack_pvp.manager;
 
+import mochineko.core_attack_pvp.kit.DefaultKit;
 import mochineko.core_attack_pvp.library.KitBase;
 import mochineko.core_attack_pvp.status.KitType;
 import mochineko.core_attack_pvp.util.BukkitUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -35,7 +38,14 @@ public class KitManager {
         setKit(uuid, type.newInstance(Bukkit.getOfflinePlayer(uuid)));
     }
 
+    /**
+     * 現在のキットを取得する関数
+     * @param uuid 取得したいプレイヤー
+     * @return 現在のキットを返す。何もキットが設定されていない場合は、{@link DefaultKit} を返す。
+     */
+    @Nonnull
     public KitBase getKit(UUID uuid) {
-        return kit_map.get(uuid);
+        Player player = Bukkit.getPlayer(uuid);
+        return kit_map.getOrDefault(uuid, new DefaultKit(player));
     }
 }
