@@ -3,26 +3,29 @@ package mochineko.core_attack_pvp.library;
 import mochineko.core_attack_pvp.Main;
 import mochineko.core_attack_pvp.status.ItemStackProperty;
 import mochineko.core_attack_pvp.util.ItemUtil;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class KitBase {
 
     private final String kit_name;
     private final OfflinePlayer player;
-    protected int cooldown;
-    protected boolean canUse;
+    private Map<Material, Integer> coolDownMap;
+    private Map<Material, Boolean> canUseItemMap;
 
-    public KitBase(String kit_name, OfflinePlayer player, int cooldown) {
+    public KitBase(String kit_name, OfflinePlayer player) {
         this.kit_name = kit_name;
         this.player = player;
-        this.cooldown = cooldown;
-        this.canUse = true;
+        this.coolDownMap = new HashMap<>();
+        this.canUseItemMap = new HashMap<>();
     }
 
     public String getName() {
@@ -38,6 +41,34 @@ public abstract class KitBase {
     }
 
     public abstract List<ItemStack> getKitItems();
+
+    public int getCoolDown(Material material) {
+        if (getKitItems().stream().anyMatch(item -> item.getType() == material)) {
+            if (!coolDownMap.containsKey(material)) {
+                coolDownMap.put(material, 0);
+            }
+            return coolDownMap.get(material);
+        }
+        return -1;
+    }
+
+    public void setCoolDown(Material material, int coolDown) {
+        coolDownMap.put(material, coolDown);
+    }
+
+    public boolean canUseItem(Material material) {
+        if (getKitItems().stream().anyMatch(item -> item.getType() == material)) {
+            if (!canUseItemMap.containsKey(material)) {
+                canUseItemMap.put(material, true);
+            }
+            return canUseItemMap.get(material);
+        }
+        return false;
+    }
+
+    public void setCanUseItem(Material material, boolean canUse) {
+        canUseItemMap.put(material, canUse);
+    }
 
     public void giveKitItem() {
         getPlayer().getInventory().addItem(getKitItems().toArray(new ItemStack[0]));

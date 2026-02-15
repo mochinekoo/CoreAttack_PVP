@@ -12,7 +12,7 @@ import java.util.List;
 public class DefaultKit extends KitBase {
 
     public DefaultKit(OfflinePlayer player) {
-        super("DefaultKit", player, 0);
+        super("DefaultKit", player);
     }
 
     @Override

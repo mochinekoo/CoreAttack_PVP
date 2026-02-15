@@ -24,22 +24,27 @@ public class Builder extends KitBase {
 
     private BukkitTask task;
 
+    public static final List<ItemStack> KIT_ITEM = List.of(
+            new ItemUtil(Material.BOOK, "ビルダー", Arrays.asList("あああ")).setProperty(ItemStackProperty.KIT_ITEM).buildItemStack()
+    );
+
     public Builder(OfflinePlayer player) {
-        super("Builder", player, 30);
+        super("Builder", player);
         this.task = new BukkitRunnable() {
             @Override
             public void run() {
                 ItemStack bookKit = findKitItem(new ItemStack(Material.BOOK));
                 if (bookKit == null) return;
                 ItemMeta meta = bookKit.getItemMeta();
-                if (cooldown <= 0) {
+                int coolDown = getCoolDown(bookKit.getType());
+                if (coolDown <= 0) {
                     meta.setDisplayName("ビルダー" + ChatColor.GRAY + "(利用可能です!)");
-                    canUse = true;
+                    setCanUseItem(bookKit.getType(), true);
                 }
                 else {
-                    meta.setDisplayName("ビルダー" + ChatColor.GRAY + "(残りあと" + cooldown + "秒)");
-                    cooldown--;
-                    canUse = false;
+                    meta.setDisplayName("ビルダー" + ChatColor.GRAY + "(残りあと" + coolDown + "秒)");
+                    setCoolDown(bookKit.getType(), coolDown - 1);
+                    setCanUseItem(bookKit.getType(), false);
                 }
                 bookKit.setItemMeta(meta);
             }
@@ -48,18 +53,17 @@ public class Builder extends KitBase {
 
     @Override
     public List<ItemStack> getKitItems() {
-        return List.of(
-                new ItemUtil(Material.BOOK, "ビルダー", Arrays.asList("あああ")).setProperty(ItemStackProperty.KIT_ITEM).buildItemStack()
-        );
+        return KIT_ITEM;
     }
 
     public void useKitItem() {
-        if (!canUse) return;
+        ItemStack bookKit = findKitItem(new ItemStack(Material.BOOK));
+        if (!canUseItem(bookKit.getType())) return;
 
         Inventory inv = Bukkit.createInventory(null, 9 * 5, "ビルダー");
         inv.setItem(0, new ItemStack(Material.DIRT));
         getPlayer().openInventory(inv);
-        cooldown = BOOK_COOLDOWN;
+        setCoolDown(bookKit.getType(), BOOK_COOLDOWN);
     }
 
 }
