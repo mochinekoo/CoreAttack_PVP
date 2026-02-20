@@ -33,7 +33,9 @@ public class BlockBreakListener implements Listener {
     @EventHandler
     public void onGuard(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        TeamManager teamManager = TeamManager.getInstance();
         Map<String, BlockGuardJson.GuardData> guardData = json.getGuardData();
+        if (teamManager.getJoinGameTeam(player) == GameTeam.ADMIN) return; //運営なら保護エリアも破壊できるように
         if (guardData == null) return;
         for (BlockGuardJson.GuardData guard : guardData.values()) {
             if (guard.isAABB(event.getBlock().getLocation())) {
@@ -55,6 +57,7 @@ public class BlockBreakListener implements Listener {
         Location loc = block.getLocation();
         GameTeam breakTeam = coreManager.getBreakCoreTeam(loc);
 
+        if (team == GameTeam.ADMIN) return; //運営ならコア自体を破壊できるように
         if (block.getType() != CoreManager.CORE_BLOCK.getMaterial()) return; //削ったブロックが、コアブロックじゃない場合
         if (breakTeam == null) return; //削った場所が、チームのコアじゃない場合
 
@@ -94,6 +97,7 @@ public class BlockBreakListener implements Listener {
         Location loc = block.getLocation();
         GameTeam breakTeam = coreManager.getBreakCoreTeam(loc);
 
+        if (team == GameTeam.ADMIN) return; //運営なら資源を破壊できるように
         if (block.getType() == Material.COBBLESTONE) event.setCancelled(true);
         if (BlockResourceType.isBlockResourceType(block.getType())) {
             BlockResourceType blockResource = BlockResourceType.getBlockResourceType(block.getType());

@@ -4,7 +4,8 @@ import org.bukkit.ChatColor;
 
 public enum GameTeam {
     RED(ChatColor.RED, "赤"),
-    BLUE(ChatColor.BLUE, "青");
+    BLUE(ChatColor.BLUE, "青"),
+    ADMIN(ChatColor.GOLD, "運営");
 
     private final ChatColor color;
     private final String team_string;

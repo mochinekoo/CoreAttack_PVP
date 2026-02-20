@@ -1,8 +1,11 @@
 package mochineko.core_attack_pvp.listener;
 
+import mochineko.core_attack_pvp.manager.TeamManager;
+import mochineko.core_attack_pvp.status.GameTeam;
 import mochineko.core_attack_pvp.util.ChatUtil;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -22,8 +25,11 @@ public class PlayerCraftListener implements Listener {
     @EventHandler
     public void onRecipe(CraftItemEvent event) {
         HumanEntity player = event.getWhoClicked();
+        TeamManager teamManager = TeamManager.getInstance();
         Recipe recipe = event.getRecipe();
         ItemStack resultItem = recipe.getResult();
+
+        if (teamManager.getJoinGameTeam((Player) player) == GameTeam.ADMIN) return; //運営ならクラフトできるように
         if (NG_RECIPELIST.contains(resultItem.getType())) {
             ChatUtil.sendErrorMessage(player, "そのアイテムをクラフトすることはできません。");
             event.setCancelled(true);

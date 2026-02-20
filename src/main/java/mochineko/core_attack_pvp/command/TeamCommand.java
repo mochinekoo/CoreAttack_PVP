@@ -25,8 +25,8 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender send, Command cmd, String s, String[] args) {
+        TeamManager teamManager = TeamManager.getInstance();
         if (cmd.getName().equalsIgnoreCase("game_team")) {
-            TeamManager teamManager = TeamManager.getInstance();
             if (args[0].equalsIgnoreCase("join")) {
                 //プレイヤーを特定のチームに参加させるコマンド
                 GameTeam team = GameTeam.valueOf(args[1]);
@@ -66,6 +66,18 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
                 //チームを空にするコマンド
                 teamManager.emptyTeam();
                 ChatUtil.sendInfoMessage(send, "チームを空にしました。");
+            }
+        }
+        else if (cmd.getName().equalsIgnoreCase("admin")) {
+            Player player = (Player) send;
+            if (teamManager.getJoinGameTeam(player) == GameTeam.ADMIN) {
+                teamManager.leaveTeam(player);
+                ChatUtil.sendInfoMessage(player, "運営モードから離脱しました。");
+            }
+            else {
+                teamManager.leaveTeam(player);
+                teamManager.joinTeam(GameTeam.ADMIN, player);
+                ChatUtil.sendInfoMessage(player, "運営モードになりました。");
             }
         }
         return false;

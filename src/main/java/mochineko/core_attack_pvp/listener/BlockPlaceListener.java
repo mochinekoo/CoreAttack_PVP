@@ -2,7 +2,9 @@ package mochineko.core_attack_pvp.listener;
 
 import mochineko.core_attack_pvp.json.BlockGuardJson;
 import mochineko.core_attack_pvp.manager.JsonManager;
+import mochineko.core_attack_pvp.manager.TeamManager;
 import mochineko.core_attack_pvp.status.FileType;
+import mochineko.core_attack_pvp.status.GameTeam;
 import mochineko.core_attack_pvp.util.ChatUtil;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,6 +33,9 @@ public class BlockPlaceListener implements Listener {
     public void onGuard(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlockPlaced();
+        TeamManager teamManager = TeamManager.getInstance();
+
+        if (teamManager.getJoinGameTeam(player) == GameTeam.ADMIN) return; //運営ならブロックを設置できるように
         if (CANT_BLOCK.contains(block.getType())) {
             event.setCancelled(true);
             ChatUtil.sendInfoMessage(player, "そのブロックを設置することはできません。");
