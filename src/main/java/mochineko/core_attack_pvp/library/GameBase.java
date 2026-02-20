@@ -15,7 +15,13 @@ public abstract class GameBase {
         this.status = GameStatus.WAITING;
     }
 
-    public abstract int startGame();
+    /**
+     * ゲームを開始する関数。
+     * @param customData int型のカスタムデータ
+     * @return ゲームの開始できた場合は0を返す。失敗は0以外。
+     */
+    public abstract int startGame(int customData);
+
     public abstract void resetGame();
 
     public int getTime() {

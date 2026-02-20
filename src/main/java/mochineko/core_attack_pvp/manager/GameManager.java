@@ -24,17 +24,22 @@ public class GameManager extends GameBase {
     }
 
     @Override
-    public int startGame() {
+    public int startGame(int customData) {
         if (isGameActive()) return -1;
         if (getStatus() != GameStatus.WAITING) return -1;
         KitManager kitManager = KitManager.getInstance();
 
+        final int[] countTime = {10};
+        if (customData == 1) { //カウントダウン無しで開始させる
+            countTime[0] = 0;
+        }
+
         BukkitTask task = new BukkitRunnable() {
-            int countTime = 10;
+
             @Override
             public void run() {
                 if (getStatus() == GameStatus.WAITING || getStatus() == GameStatus.COUNTTING) {
-                    if (countTime <= 0) {
+                    if (countTime[0] <= 0) {
                         ChatUtil.sendGlobalInfoMessage("ゲーム開始!");
                         setStatus(GameStatus.RUNNING);
                         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -54,9 +59,9 @@ public class GameManager extends GameBase {
                         }
                     }
                     else {
-                        String message = String.format("ゲームを開始まであと%d秒", countTime);
+                        String message = String.format("ゲームを開始まであと%d秒", countTime[0]);
                         ChatUtil.sendGlobalInfoMessage(message);
-                        countTime--;
+                        countTime[0]--;
                         setStatus(GameStatus.COUNTTING);
                     }
                 }
