@@ -21,9 +21,14 @@ public class BukkitUtil {
         GameTeam team = teamManager.getJoinGameTeam(player);
         if (team == null) return;
         if (kit == null) return;
-        if (kit.getName().equalsIgnoreCase("DefaultKit")) return;
-        //例：[Builder] mochi__neko
-        player.setPlayerListName(ChatColor.GRAY + "[" + kit.getName() + "]" + ChatColor.RESET + team.getColor() + player.getName());
+        if (kit.getName().equalsIgnoreCase("DefaultKit")) {
+            //例：mochi__neko
+            player.setPlayerListName(team.getColor() + player.getName());
+        }
+        else {
+            //例：[Builder] mochi__neko
+            player.setPlayerListName(ChatColor.GRAY + "[" + kit.getName() + "]" + ChatColor.RESET + team.getColor() + player.getName());
+        }
     }
 
     /**
